@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert, Image, Dimensions, TouchableOpacity } from "react-native";
 import axios from "axios";
 import { saveData } from "../../src/storage/mmkvStorage";
 
@@ -10,7 +10,6 @@ const SignupScreen = ({ navigation }) => {
 
   const handleSignup = async () => {
     try {
-      // Replace with your actual backend URL
       const res = await axios.post("http://10.0.2.2:5000/api/auth/signup", {
         name,
         email,
@@ -29,46 +28,110 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <View>
-        <Image
-          source={require("../../assets/images/login.png")}
-          style={{ width: 100, height: 100, alignSelf: "center" }}
+      <Image style={styles.image} source={require("../../assets/images/login.png")} />
+      <View style={styles.container3} />
+      <View style={styles.container2}>
+        <Text style={styles.logintext1}>Name</Text>
+        <TextInput
+          placeholder=""
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
         />
+        <Text style={styles.logintext1}>Email</Text>
+        <TextInput
+          placeholder=""
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+          autoCapitalize="none"
+        />
+        <Text style={styles.logintext1}>Password</Text>
+        <TextInput
+          secureTextEntry
+          placeholder=""
+          value={password}
+          onChangeText={setPassword}
+          style={styles.input}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSignup}>
+          <Text style={styles.login}>Sign Up</Text>
+        </TouchableOpacity>
+        <Text style={styles.footerText}>
+          Already have an account?
+          <Text onPress={() => navigation.navigate("Login")} style={styles.footerLink}>
+            {" "}Login
+          </Text>
+        </Text>
       </View>
-      <TextInput
-        placeholder="Name"
-        value={name}
-        style={styles.input}
-        onChangeText={setName}
-      />
-      <TextInput
-        placeholder="Email"
-        value={email}
-        style={styles.input}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        style={styles.input}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Sign Up" onPress={handleSignup} />
-      <Button
-        title="Already have an account? Login"
-        onPress={() => navigation.navigate("Login")}
-      />
     </View>
   );
 };
 
 export default SignupScreen;
 
+const width = Dimensions.get("window").width;
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 24, marginBottom: 20, textAlign: "center" },
-  input: { borderWidth: 1, marginBottom: 15, padding: 10, borderRadius: 5 },
+  container: { 
+    flex: 1, 
+    justifyContent: "center", 
+    padding: 20, 
+    backgroundColor: "#141D2A" 
+  },
+  container2: {
+    padding: "10%",
+    position: "absolute",
+    bottom: 0,
+    height: "63%",
+    width: width,
+    backgroundColor: "#222B39",
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+  },
+  container3: { 
+    flex: 1, 
+    justifyContent: "center", 
+    marginLeft: -20, 
+    marginTop: -20 
+  },
+  image: { 
+    marginTop: "2%", 
+    height: "380", 
+    width: "380", 
+    alignSelf: "center" 
+  },
+  logintext1: {
+    color: "#FFFFFF75",
+    fontSize: 20,
+    marginBottom: "1.5%",
+  },
+  input: { 
+    borderWidth: 1, 
+    marginBottom: 15, 
+    padding: 10, 
+    borderRadius: 5,
+    backgroundColor: "#141D2A", 
+    color: "#FFFFFF75" 
+  },
+  button: {
+    backgroundColor: "#796BF8",
+    width: width / 2,
+    paddingVertical: "3.5%",
+    borderRadius: 30,
+    marginTop: 20,
+    alignSelf: "center"
+  },
+  login: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 20,
+  },
+  footerText: {
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 20,
+  },
+  footerLink: {
+    color: "#FFD700",
+  },
 });
