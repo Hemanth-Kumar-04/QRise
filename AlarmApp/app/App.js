@@ -7,7 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import SetAlarmScreen from './screens/SetAlarmScreen';
 import AlarmRingingScreen from './screens/AlarmRingingScreen';
 import BarcodeScanner from '../components/BarcodeScanner';
-
+import OrboardingScreen from './screens/OrboardingScreen';
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
@@ -18,6 +18,7 @@ export default function AppNavigator() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="SetAlarm" component={SetAlarmScreen} />
       <Stack.Screen name="AlarmRinging" component={AlarmRingingScreen} />
+      <Stack.Screen name="Orboarding" component={OrboardingScreen} />
       <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
     </Stack.Navigator>
   );
