@@ -4,9 +4,10 @@ import {
   Text, 
   FlatList, 
   StyleSheet, 
-  Image, 
+  Image,  
   TouchableOpacity, 
-  Switch 
+  Switch,
+  Dimensions
 } from 'react-native';
 import { getData, saveData } from '../../src/storage/mmkvStorage';
 
@@ -17,11 +18,9 @@ const HomeScreen = ({ navigation }) => {
   const [alarms, setAlarms] = useState([]);
 
   useEffect(() => {
-    // Retrieve user and alarms from local storage
     const storedUser = getData('user');
     const storedAlarms = getData('alarms') || [];
     setUser(storedUser);
-    // Ensure each alarm has an 'enabled' property; default true if not present.
     const updatedAlarms = storedAlarms.map(alarm => ({
       ...alarm,
       enabled: alarm.enabled !== undefined ? alarm.enabled : true,
@@ -43,35 +42,38 @@ const HomeScreen = ({ navigation }) => {
   const renderAlarmBox = ({ item, index }) => {
     const backgroundColor = alarmColors[index % alarmColors.length];
     return (
-      <View style={[styles.alarmBox, { backgroundColor }]}>
-        <Text style={styles.alarmTime}>{item.time}</Text>
-        <Text style={styles.alarmLabel}>{item.label}</Text>
+
+
+      <TouchableOpacity 
+        style={[styles.alarmBox, { backgroundColor }]}
+        onPress={() => navigation.navigate('SetAlarm', { alarm: item })} // navigate to edit screen
+        >
+        <View style={styles.alarmLeft}>
+          <Text style={styles.alarmTime}>{item.time}</Text>
+         
+        </View>
         <Switch
           value={item.enabled}
           onValueChange={() => toggleAlarm(item.id)}
-        />
-      </View>
+          />
+      </TouchableOpacity>
     );
   };
 
   return (
     <View style={styles.container}>
-      {/* Header Greeting */}
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hello, {user ? user.name : 'User'}!</Text>
+        <Text style={styles.greeting}>Welcome,</Text>
+        <Text style={styles.greeting}>{user ? user.name : 'User'}!</Text>
       </View>
-      
-      {/* Alarm Boxes Grid */}
       <FlatList
         data={alarms}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderAlarmBox}
         ListEmptyComponent={<Text style={styles.emptyText}>No alarms set.</Text>}
         contentContainerStyle={styles.alarmList}
-        numColumns={2}
+        numColumns={1}
       />
-      
-      {/* Add Alarm Button (Image) */}
       <TouchableOpacity 
         style={styles.addButton} 
         onPress={() => navigation.navigate('SetAlarm')}
@@ -82,7 +84,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </TouchableOpacity>
 
-      {/* Bottom Navigation Bar */}
+      {/* Navigation bar
       <View style={styles.navBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Text style={styles.navText}>Home</Text>
@@ -94,12 +96,14 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.navText}>Settings</Text>
         </TouchableOpacity>
       </View>
+       */}
     </View>
   );
 };
 
 export default HomeScreen;
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
@@ -114,27 +118,34 @@ const styles = StyleSheet.create({
     color: '#FFFFFF95' 
   },
   alarmList: {
+    marginTop:"-67%",
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   alarmBox: {
-    flexGrow:1,
-    minWidth: '90%',
-    margin: 10,
-    padding: 15,
-    borderRadius: 10,
+    flexDirection: 'row',
     alignItems: 'center',
+    minWidth: '100%', // full width alarm box
+    marginVertical: 5,
+    marginHorizontal: 10,
+    padding: 20,
+    paddingVertical:25,
+    borderRadius: 15,
+    justifyContent: 'space-between',
+  },
+  alarmLeft: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   alarmTime: { 
-    fontSize: 24, 
+    fontSize: 30, 
     color: '#fff', 
-    marginBottom: 5 
+    marginBottom: 3 
   },
   alarmLabel: { 
     fontSize: 18, 
-    color: '#fff', 
-    marginBottom: 10 
+    color: '#fff' 
   },
   emptyText: { 
     color: '#fff', 
@@ -145,15 +156,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 30,
     bottom: 80,
-    backgroundColor: '#1FC176',
-    borderRadius: 30,
+
     padding: 10,
-    elevation: 5,
+     
   },
   addIcon: { 
-    width: 40, 
-    height: 40, 
-    tintColor: '#fff' 
+    width: 60, 
+    height: 60,
   },
   navBar: {
     height: 60,

@@ -8,10 +8,9 @@ const OrboardingScreen = ({ navigation }) => {
       <View style={styles.container3}></View>
       <View style={styles.container2}>
         <View style={{ marginTop: '4%' }}>
-        <Text style={styles.text1}>Discover The Best</Text>
-        <Text style={styles.text1}>Smart Alarm</Text>
-        <Text style={styles.text1}>App</Text>
-
+          <Text style={styles.text1}>Discover The Best</Text>
+          <Text style={styles.text1}>Smart Alarm</Text>
+          <Text style={styles.text1}>App</Text>
         </View>
         <TouchableOpacity
           style={styles.button}
@@ -27,7 +26,6 @@ const OrboardingScreen = ({ navigation }) => {
 export default OrboardingScreen;
 
 const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -55,7 +53,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF95',
     fontSize: 40,
-  //  marginBottom: '0.5%',
   },
   image: {
     marginTop: '4%',
