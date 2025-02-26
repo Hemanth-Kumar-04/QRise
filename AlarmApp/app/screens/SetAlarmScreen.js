@@ -141,12 +141,12 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E2530',
+    backgroundColor: '#141D2A',
     paddingHorizontal: 20,
     paddingTop: 40,
   },
   title: {
-    fontSize: 22,
+    fontSize: 26,
     color: '#FFFFFFCC',
     textAlign: 'center',
     marginBottom: 25,
@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
   },
   repeatText: {
     color: '#FFFFFFCC',
-    fontSize: 18,
+    marginTop:'7.5%',
+    fontSize: 24,
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -202,27 +203,27 @@ const styles = StyleSheet.create({
   },
   scanText: {
     color: '#FFFFFF99',
-    fontSize: 14,
+    fontSize: 18,
   },
   tuneContainer: {
     alignItems: 'center',
   },
   tuneLabel: {
     color: '#FFFFFF99',
-    fontSize: 14,
+    fontSize: 17,
     marginBottom: 5,
   },
   tunePicker: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#2D3440',
-    paddingHorizontal: 15,
+    paddingHorizontal: 28,
     paddingVertical: 8,
     borderRadius: 8,
   },
   tunePickerText: {
     color: '#FFFFFF99',
-    fontSize: 14,
+    fontSize: 16,
     marginRight: 10,
   },
   downIcon: {
@@ -231,14 +232,15 @@ const styles = StyleSheet.create({
     tintColor: '#FFFFFF99',
   },
   setAlarmButton: {
+    marginTop: '20%',
     alignSelf: 'center',
-    backgroundColor: '#08D697',
+    backgroundColor: '#7568EB',
     paddingVertical: 15,
     paddingHorizontal: 50,
     borderRadius: 25,
   },
   setAlarmText: {
-    color: '#1E2530',
+    color: '#FFFFFF95',
     fontSize: 18,
     fontWeight: 'bold',
   },
