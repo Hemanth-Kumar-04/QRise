@@ -8,7 +8,6 @@ const AlarmRingingScreen = ({ navigation }) => {
     if (snoozeCount < 3) {
       setSnoozeCount(snoozeCount + 1);
       Alert.alert('Snoozed', 'Alarm snoozed for 10 minutes');
-      // Optionally schedule another notification in 10 minutes
     } else {
       Alert.alert('Snooze Limit Reached', 'Please scan the barcode to stop the alarm.');
     }
@@ -30,6 +29,13 @@ const AlarmRingingScreen = ({ navigation }) => {
 export default AlarmRingingScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  alarmText: { fontSize: 28, marginBottom: 20 }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  alarmText: {
+    fontSize: 28,
+    marginBottom: 20,
+  },
 });
