@@ -7,20 +7,21 @@ import {
   Alert, 
   Switch, 
   Dimensions, 
-  Image
+  Image 
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
+import { TimerPicker } from 'react-native-timer-picker';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Audio } from 'expo-av';
+import * as Haptics from 'expo-haptics';
 import { saveData, getData } from '../../src/storage/mmkvStorage';
 
-const mockTimes = ['06 : 20', '07 : 20', '08 : 42', '09 : 20', '10 : 20']; // Example times
 const daysArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
 
 const SetAlarmScreen = ({ navigation }) => {
   const route = useRoute();
   const [selectedTime, setSelectedTime] = useState('08 : 42');
-  const [amPm, setAmPm] = useState('AM');
   const [selectedDays, setSelectedDays] = useState({
     Mon: false, Tue: false, Wed: false, Thu: false, Fri: false, Sat: false, Sun: false
   });
@@ -43,7 +44,7 @@ const SetAlarmScreen = ({ navigation }) => {
       content: {
         title: 'Alarm ringing!',
         body: 'Tap to stop the alarm.',
-        sound: alarmSound.toLowerCase(), // or map to an actual sound file
+        sound: alarmSound.toLowerCase(),
         data: { alarmId }
       },
       trigger: scheduledTime,
@@ -59,7 +60,7 @@ const SetAlarmScreen = ({ navigation }) => {
     const newAlarm = {
       id: Date.now(),
       label: label || 'Alarm',
-      time: `${selectedTime} ${amPm}`,
+      time: selectedTime,
       days: selectedDays,
       alarmSound,
       barcode,
@@ -78,42 +79,25 @@ const SetAlarmScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Alarm</Text>
-      
-      {/* Time Selector */}
-      <View style={styles.timesContainer}>
-        {mockTimes.map((t) => {
-          const isSelected = t === selectedTime;
-          return (
-            <TouchableOpacity
-              key={t}
-              style={[styles.timeButton, isSelected && styles.timeButtonSelected]}
-              onPress={() => setSelectedTime(t)}
-            >
-              <Text style={[styles.timeText, isSelected && styles.timeTextSelected]}>
-                {t}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      {/* AM / PM Toggle */}
-      <View style={styles.amPmContainer}>
-        <TouchableOpacity
-          style={[styles.amPmButton, amPm === 'AM' && styles.amPmSelected]}
-          onPress={() => setAmPm('AM')}
-        >
-          <Text style={[styles.amPmText, amPm === 'AM' && styles.amPmTextSelected]}>AM</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.amPmButton, amPm === 'PM' && styles.amPmSelected]}
-          onPress={() => setAmPm('PM')}
-        >
-          <Text style={[styles.amPmText, amPm === 'PM' && styles.amPmTextSelected]}>PM</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Repeat Days */}
+      <TimerPicker
+        padWithNItems={2}
+        hideSeconds
+        minuteLabel="min"
+            hourLabel="hr"
+        Audio={Audio}
+        LinearGradient={LinearGradient}
+        Haptics={Haptics}
+        onChange={(timeStr) => setSelectedTime(timeStr)}
+        styles={{
+          theme: "dark",
+          backgroundColor: "transparent",
+          pickerItem: { fontSize: 30 },
+          pickerLabel: { fontSize: 26, right: 20,left:20 },
+          pickerLabelContainer: { width: 60 },
+          pickerItemContainer: { width:150 },
+        }}
+        style={styles.timeWheel}
+      />
       <Text style={styles.repeatText}>Repeat</Text>
       <View style={styles.daysContainer}>
         {daysArray.map((day) => {
@@ -131,8 +115,6 @@ const SetAlarmScreen = ({ navigation }) => {
           );
         })}
       </View>
-
-      {/* Scan QR & Tune */}
       <View style={styles.scanTuneContainer}>
         <TouchableOpacity style={styles.scanButton} onPress={() => navigation.navigate('BarcodeScanner')}>
           <Image source={require('../../assets/images/addicon.png')} style={styles.qrIcon} />
@@ -146,8 +128,6 @@ const SetAlarmScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* Set Alarm Button */}
       <TouchableOpacity style={styles.setAlarmButton} onPress={handleSaveAlarm}>
         <Text style={styles.setAlarmText}>Set Alarm</Text>
       </TouchableOpacity>
@@ -171,50 +151,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 25,
   },
-  timesContainer: {
-    flexDirection: 'column',
+  timeWheel: {
     alignSelf: 'center',
-    marginBottom: 15,
-  },
-  timeButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    marginVertical: 5,
-    alignItems: 'center',
+    backgroundColor: '#2D3440',
     borderRadius: 10,
-    backgroundColor: '#2D3440',
-  },
-  timeButtonSelected: {
-    backgroundColor: '#08D69733',
-  },
-  timeText: {
-    fontSize: 28,
-    color: '#FFFFFF99',
-  },
-  timeTextSelected: {
-    color: '#08D697',
-  },
-  amPmContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  amPmButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    marginHorizontal: 5,
-    borderRadius: 8,
-    backgroundColor: '#2D3440',
-  },
-  amPmSelected: {
-    backgroundColor: '#08D69733',
-  },
-  amPmText: {
-    fontSize: 18,
-    color: '#FFFFFF99',
-  },
-  amPmTextSelected: {
-    color: '#08D697',
+    marginBottom: 15,
   },
   repeatText: {
     color: '#FFFFFFCC',
