@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     padding: '10%',
     position: 'absolute',
     bottom: 0,
-    height: '50%',
+    height: '45%',
     width: width,
     backgroundColor: '#222B39',
     borderTopRightRadius: 30,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     width: width / 2,
     paddingVertical: '3.5%',
     borderRadius: 30,
-    marginTop: '15%',
+    marginTop: '10%',
     alignSelf: 'center',
   },
   login: {
