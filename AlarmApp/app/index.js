@@ -20,6 +20,6 @@ export default function AppNavigator() {
       <Stack.Screen name="Orboarding" component={OrboardingScreen} />
       <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
     </Stack.Navigator>
-  );
+  );   
 }
   
